@@ -47,8 +47,23 @@
       }
     }
 
+    /* Slideshow container */
+    .slidesContainer {
+      position: relative;
+      width: 100%;
+      height: auto;
+      white-space: nowrap;
+      transition: transform 1s;
+    }
+
     .mySlides {
-      display: none;
+      display: inline-block;
+      width: 100%;
+      height: auto;
+    }
+
+    .mySlides img {
+      width: 100%;
     }
   </style>
   <body>
@@ -82,26 +97,28 @@
 
     <!-- Page content -->
     <div class="w3-content" style="max-width: 2000px; margin-top: 46px">
-      <!-- Automatic Slideshow Images -->
-      <div class="mySlides w3-display-container w3-center">
-        <img src="https://www.w3schools.com/w3images/la.jpg" style="width: 100%" />
-        <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-          <h3>Los Angeles</h3>
-          <p><b>We had the best time playing at Venice Beach!</b></p>
+      <div class="slidesContainer">
+        <!-- Automatic Slideshow Images -->
+        <div class="mySlides w3-display-container w3-center">
+          <img src="https://www.w3schools.com/w3images/la.jpg" />
+          <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+            <h3>Los Angeles</h3>
+            <p><b>We had the best time playing at Venice Beach!</b></p>
+          </div>
         </div>
-      </div>
-      <div class="mySlides w3-display-container w3-center">
-        <img src="https://www.w3schools.com/w3images/ny.jpg" style="width: 100%" />
-        <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-          <h3>New York</h3>
-          <p><b>The atmosphere in New York is lorem ipsum.</b></p>
+        <div class="mySlides w3-display-container w3-center">
+          <img src="https://www.w3schools.com/w3images/ny.jpg" />
+          <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+            <h3>New York</h3>
+            <p><b>The atmosphere in New York is lorem ipsum.</b></p>
+          </div>
         </div>
-      </div>
-      <div class="mySlides w3-display-container w3-center">
-        <img src="https://www.w3schools.com/w3images/chicago.jpg" style="width: 100%" />
-        <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-          <h3>Chicago</h3>
-          <p><b>Thank you, Chicago - A night we won't forget.</b></p>
+        <div class="mySlides w3-display-container w3-center">
+          <img src="https://www.w3schools.com/w3images/chicago.jpg" />
+          <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+            <h3>Chicago</h3>
+            <p><b>Thank you, Chicago - A night we won't forget.</b></p>
+          </div>
         </div>
       </div>
 
@@ -240,21 +257,21 @@
 
     <script>
       // Automatic Slideshow - change image every 4 seconds
-      var myIndex = 0
-      carousel()
+      const carouselContainer = document.querySelector(".slidesContainer") // Get the container
+
+      // Start the carousel
+      setTimeout(carousel, 1000)
 
       function carousel() {
-        var i
-        var x = document.getElementsByClassName("mySlides")
-        for (i = 0; i < x.length; i++) {
-          x[i].style.display = "none"
-        }
-        myIndex++
-        if (myIndex > x.length) {
-          myIndex = 1
-        }
-        x[myIndex - 1].style.display = "block"
-        setTimeout(carousel, 4000)
+        carouselContainer.style.transition = "transform 1s" // Smooth transition
+        carouselContainer.style.transform = `translateX(-100%)` // Move the container to the left
+        setTimeout(() => {
+          // Wait for the transition to end and then do the following
+          carouselContainer.appendChild(carouselContainer.firstElementChild) // Move the first slide to the end
+          carouselContainer.style.transition = "none" // Reset the transition
+          carouselContainer.style.transform = `translateX(0)` // Reset the position
+          setTimeout(carousel, 4000) // Change image every 4 seconds
+        }, 1000)
       }
 
       // Used to toggle the menu on small screens when clicking on the menu button
