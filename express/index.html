@@ -232,7 +232,7 @@
             <i class="fa fa-envelope" style="width: 30px"> </i> Email: mail@mail.com<br />
           </div>
           <div class="w3-col m6">
-            <form action="/action_page.php" target="_blank">
+            <form id="contactForm">
               <div class="w3-row-padding" style="margin: 0 -16px 8px -16px">
                 <div class="w3-half">
                   <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name" />
@@ -244,6 +244,8 @@
               <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message" />
               <button class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
             </form>
+            <p class="formError" style="color: red; font-size: 12px"></p>
+            <p class="formSuccess" style="color: green; font-size: 12px"></p>
           </div>
         </div>
       </div>
@@ -302,7 +304,7 @@
         }
       }
       ////////////////////////////////////////////////////////////////////////////////////
-      // Random Letter Matching
+      // Random Letter Matching (EFFECT 1)
       ////////////////////////////////////////////////////////////////////////////////////
       const paragraph = document.getElementById("sortParagraph") // Get the paragraph
       const lettersOriginal = paragraph.innerText // Get the text of the paragraph
@@ -343,6 +345,56 @@
         paragraph.innerText = nextText // Set the new text
 
         doesNotMatch && setTimeout(bogoMatchLetterInParagraph, 10) // If text does not match, try again
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////
+      // Form Submission (EFFECT 2)
+      ////////////////////////////////////////////////////////////////////////////////////
+      const contactForm = document.getElementById("contactForm") // Get the form
+      contactForm.addEventListener("submit", onFormSubmit) // Listen for form submission
+
+      const formError = document.querySelector(".formError") // Get the form error element
+      const formSuccess = document.querySelector(".formSuccess") // Get the form success element
+
+      function onFormSubmit(e) {
+        e.preventDefault() // Prevent the form from submitting
+        const formData = new FormData(e.target) // Get the form data
+        const data = Object.fromEntries(formData) // Convert the form data to an object
+
+        // Check if the form is valid
+        if (!data.Name || !data.Email || !data.Message) {
+          formError.innerText = "Please fill in all the fields" // Show error message
+          formSuccess.innerText = "" // Hide success message
+          return
+        }
+        if (!data.Email.includes("@") || !data.Email.includes(".")) {
+          formError.innerText = "Please enter a valid email" // Show error message
+          formSuccess.innerText = "" // Hide success message
+          return
+        }
+        if (data.Message.length < 3) {
+          formError.innerText = "Message must be at least 3 characters long" // Show error message
+          formSuccess.innerText = "" // Hide success message
+          return
+        }
+        if (data.Name.length < 2) {
+          formError.innerText = "Name must be at least 2 characters long" // Show error message
+          formSuccess.innerText = "" // Hide success message
+          return
+        }
+        if (data.Email.length < 5) {
+          formError.innerText = "Email must be at least 5 characters long" // Show error message
+          formSuccess.innerText = "" // Hide success message
+          return
+        }
+
+        formError.innerText = "" // Hide error message
+        formSuccess.innerText = "Form submitted successfully" // Show success message
+        contactForm.reset() // Reset the form
+        alert(`Your message was send!
+Name: ${data.Name}
+Email: ${data.Email}
+Message: ${data.Message}`) // Show alert
       }
     </script>
   </body>
