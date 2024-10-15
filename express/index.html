@@ -9,6 +9,7 @@
   <style>
     body {
       font-family: "Lato", sans-serif;
+      width: 100%;
     }
 
     p {
@@ -48,6 +49,13 @@
     }
 
     /* Slideshow container */
+    .superSlideContainer {
+      position: relative;
+      width: 100%;
+      height: auto;
+      overflow: hidden;
+    }
+
     .slidesContainer {
       position: relative;
       width: 100%;
@@ -97,27 +105,29 @@
 
     <!-- Page content -->
     <div class="w3-content" style="max-width: 2000px; margin-top: 46px">
-      <div class="slidesContainer">
-        <!-- Automatic Slideshow Images -->
-        <div class="mySlides w3-display-container w3-center">
-          <img src="https://www.w3schools.com/w3images/la.jpg" />
-          <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-            <h3>Los Angeles</h3>
-            <p><b>We had the best time playing at Venice Beach!</b></p>
+      <div class="superSlideContainer">
+        <div class="slidesContainer">
+          <!-- Automatic Slideshow Images -->
+          <div class="mySlides w3-display-container w3-center">
+            <img src="https://www.w3schools.com/w3images/la.jpg" />
+            <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+              <h3>Los Angeles</h3>
+              <p><b>We had the best time playing at Venice Beach!</b></p>
+            </div>
           </div>
-        </div>
-        <div class="mySlides w3-display-container w3-center">
-          <img src="https://www.w3schools.com/w3images/ny.jpg" />
-          <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-            <h3>New York</h3>
-            <p><b>The atmosphere in New York is lorem ipsum.</b></p>
+          <div class="mySlides w3-display-container w3-center">
+            <img src="https://www.w3schools.com/w3images/ny.jpg" />
+            <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+              <h3>New York</h3>
+              <p><b>The atmosphere in New York is lorem ipsum.</b></p>
+            </div>
           </div>
-        </div>
-        <div class="mySlides w3-display-container w3-center">
-          <img src="https://www.w3schools.com/w3images/chicago.jpg" />
-          <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-            <h3>Chicago</h3>
-            <p><b>Thank you, Chicago - A night we won't forget.</b></p>
+          <div class="mySlides w3-display-container w3-center">
+            <img src="https://www.w3schools.com/w3images/chicago.jpg" />
+            <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+              <h3>Chicago</h3>
+              <p><b>Thank you, Chicago - A night we won't forget.</b></p>
+            </div>
           </div>
         </div>
       </div>
@@ -126,7 +136,7 @@
       <div class="w3-container w3-content w3-center w3-padding-64" style="max-width: 800px" id="band">
         <h2 class="w3-wide the-band">THE BAND</h2>
         <p class="w3-opacity"><i>We love music</i></p>
-        <p class="w3-justify">We have created a fictional band website. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <p class="w3-justify" id="sortParagraph">We have created a fictional band website. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         <div class="w3-row w3-padding-32">
           <div class="w3-third">
             <p>Name</p>
@@ -290,6 +300,49 @@
         if (event.target == modal) {
           modal.style.display = "none"
         }
+      }
+      ////////////////////////////////////////////////////////////////////////////////////
+      // Random Letter Matching
+      ////////////////////////////////////////////////////////////////////////////////////
+      const paragraph = document.getElementById("sortParagraph") // Get the paragraph
+      const lettersOriginal = paragraph.innerText // Get the text of the paragraph
+      const alphabet = "abcdefghijklmnopqrstuvwxyz".split("") // Array of the alphabet
+      let doesNotMatch = true // Flag to check if the text does not match
+
+      // Changing every letter in the paragraph to a random letter
+      let nextText = ""
+      lettersOriginal.split("").forEach(letter => {
+        // For each letter in the paragraph do:
+        if (alphabet.includes(letter.toLowerCase())) {
+          // If letter is in the alphabet do:
+          const randomLetter = alphabet[Math.floor(Math.random() * alphabet.length)] // Random letter
+          nextText += randomLetter // Add random letter
+        } else {
+          nextText += letter // Add the letter as is (for symbols and spaces)
+        }
+      })
+      paragraph.innerText = nextText // Set the new text
+
+      // Bogo matching the letters in the paragraph
+      bogoMatchLetterInParagraph()
+
+      async function bogoMatchLetterInParagraph() {
+        let nextText = ""
+        doesNotMatch = false
+        lettersOriginal.split("").forEach((letter, index) => {
+          const randomLetter = alphabet[Math.floor(Math.random() * alphabet.length)]
+          if (alphabet.includes(letter.toLowerCase()) && paragraph.innerText.split("")[index].toLowerCase() !== letter.toLowerCase()) {
+            // If letter is in the alphabet and does not match the original text do:
+            nextText += randomLetter
+            doesNotMatch = true
+          } else {
+            nextText += letter
+          }
+        })
+
+        paragraph.innerText = nextText // Set the new text
+
+        doesNotMatch && setTimeout(bogoMatchLetterInParagraph, 10) // If text does not match, try again
       }
     </script>
   </body>
